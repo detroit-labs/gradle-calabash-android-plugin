@@ -71,6 +71,7 @@ class CalabashTestPlugin implements Plugin<Project> {
 
             if (!os.contains("windows")) { // assume Linux
                 testRunTask.environment("SCREENSHOT_PATH", "${outFileDir}/")
+                testRunTask.environment("RESET_BETWEEN_SCENARIOS", project.calabashTest.resetBetweenScenario)
             }
 
             testRunTask.commandLine commandArguments
@@ -90,10 +91,10 @@ class CalabashTestPlugin implements Plugin<Project> {
         }
     }
 
-    Iterable constructCommandLineArguments(Project project, String apkFile, File outFileDir) {
+    static Iterable constructCommandLineArguments(Project project, String apkFile, File outFileDir) {
         def os = System.getProperty("os.name").toLowerCase()
 
-        java.util.ArrayList<String> commandArguments = new ArrayList<String>()
+        ArrayList<String> commandArguments = new ArrayList<String>()
 
         if (os.contains("windows")) {
             // you start commands in Windows by kicking off a cmd shell
@@ -133,10 +134,6 @@ class CalabashTestPlugin implements Plugin<Project> {
         }
 
         commandArguments.add("-v")
-
-        if(project.calabashTest.resetBetweenScenario){
-            commandArguments.add("RESET_BETWEEN_SCENARIOS=" + 1)
-        }
 
         return commandArguments;
     }

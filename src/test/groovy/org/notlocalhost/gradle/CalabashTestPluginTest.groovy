@@ -86,11 +86,11 @@ class CalabashTestPluginTest {
 
         project.extensions.create("calabashTest", CalabashTestPluginExtension)
 
-        project.calabashTest.pathAnnotation = "@happyPath"
+        project.calabashTest.tagExpression = "@happyPath"
 
         Iterable commandArguments = plugin.constructCommandLineArguments(project, apkFile, outFile);
 
-        Assertions.assertThat(commandArguments.contains("-t")).isTrue();
+        Assertions.assertThat(commandArguments.contains("--tags")).isTrue();
         Assertions.assertThat(commandArguments.contains("@happyPath")).isTrue();
     }
 

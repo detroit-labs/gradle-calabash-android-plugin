@@ -71,7 +71,7 @@ class CalabashTestPlugin implements Plugin<Project> {
 
             if (!os.contains("windows")) { // assume Linux
                 testRunTask.environment("SCREENSHOT_PATH", "${outFileDir}/")
-                testRunTask.environment("RESET_BETWEEN_SCENARIOS", project.calabashTest.resetBetweenScenario)
+                testRunTask.environment("RESET_BETWEEN_SCENARIOS", project.calabashTest.resetBetweenScenario? "1":"0")
             }
 
             testRunTask.commandLine commandArguments
@@ -91,10 +91,10 @@ class CalabashTestPlugin implements Plugin<Project> {
         }
     }
 
-    static Iterable constructCommandLineArguments(Project project, String apkFile, File outFileDir) {
+    Iterable constructCommandLineArguments(Project project, String apkFile, File outFileDir) {
         def os = System.getProperty("os.name").toLowerCase()
 
-        ArrayList<String> commandArguments = new ArrayList<String>()
+        java.util.ArrayList<String> commandArguments = new ArrayList<String>()
 
         if (os.contains("windows")) {
             // you start commands in Windows by kicking off a cmd shell
@@ -128,9 +128,12 @@ class CalabashTestPlugin implements Plugin<Project> {
             commandArguments.add("--out")
             commandArguments.add(outFile.canonicalPath)
         }
-        if(project.calabashTest.pathAnnotation != null){
-            commandArguments.add("-t")
-            commandArguments.add(project.calabashTest.pathAnnotation)
+
+        String tagExpression = project.calabashTest.tagExpression
+        if(project.calabashTest.tagExpression != null){
+            commandArguments.add("--tags")
+            commandArguments.add(tagExpression)
+
         }
 
         commandArguments.add("-v")

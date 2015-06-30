@@ -127,7 +127,16 @@ class CalabashTestPlugin implements Plugin<Project> {
             commandArguments.add("--out")
             commandArguments.add(outFile.canonicalPath)
         }
+        if(project.calabashTest.pathAnnotation != null){
+            commandArguments.add("-t")
+            commandArguments.add(project.calabashTest.pathAnnotation)
+        }
+
         commandArguments.add("-v")
+
+        if(project.calabashTest.resetBetweenScenario){
+            commandArguments.add("RESET_BETWEEN_SCENARIOS=" + 1)
+        }
 
         return commandArguments;
     }

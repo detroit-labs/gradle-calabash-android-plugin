@@ -7,4 +7,6 @@ class CalabashTestPluginExtension {
     String featuresPath
     String profile
     String[] formats
+    String pathAnnotation
+    boolean resetBetweenScenario
 }

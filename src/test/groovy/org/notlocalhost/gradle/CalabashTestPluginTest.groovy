@@ -76,4 +76,39 @@ class CalabashTestPluginTest {
       Assertions.assertThat(commandArguments.contains("html")).isTrue();
       Assertions.assertThat(commandArguments.contains("json")).isTrue();
   }
+
+    @Test public void pluginGetsPathAnnotationWhenAvailable() {
+        CalabashTestPlugin plugin = new CalabashTestPlugin();
+
+        String apkFile = "TestApkFile";
+        File outFile = new File("/File/Path");
+        Project project = ProjectBuilder.builder().build();
+
+        project.extensions.create("calabashTest", CalabashTestPluginExtension)
+
+        project.calabashTest.pathAnnotation = "@happyPath"
+
+        Iterable commandArguments = plugin.constructCommandLineArguments(project, apkFile, outFile);
+
+        Assertions.assertThat(commandArguments.contains("-t")).isTrue();
+        Assertions.assertThat(commandArguments.contains("@happyPath")).isTrue();
+    }
+
+    @Test public void pluginResetAppScenarioValue() {
+        CalabashTestPlugin plugin = new CalabashTestPlugin();
+
+        String apkFile = "TestApkFile";
+        File outFile = new File("/File/Path");
+        Project project = ProjectBuilder.builder().build();
+
+        project.extensions.create("calabashTest", CalabashTestPluginExtension)
+
+        project.calabashTest.resetBetweenScenario = true;
+
+        Iterable commandArguments = plugin.constructCommandLineArguments(project, apkFile, outFile);
+        Assertions.assertThat(commandArguments.contains("RESET_BETWEEN_SCENARIOS=1")).isTrue();
+
+    }
+
+
 }

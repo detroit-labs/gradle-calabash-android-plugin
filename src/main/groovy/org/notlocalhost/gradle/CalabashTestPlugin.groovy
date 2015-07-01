@@ -100,7 +100,9 @@ class CalabashTestPlugin implements Plugin<Project> {
             commandArguments.add("cmd")
             commandArguments.add("/c")
         }
-        String calabashPath = project.calabashTest.calabashPath == null ? "" : project.calabashTest.calabashPath;
+
+        String calabashPath = System.properties['calabashPath'] == null ? "" : System.properties['calabashPath']
+
         commandArguments.add(calabashPath + "calabash-android");
         commandArguments.add("run")
         commandArguments.add(apkFile)

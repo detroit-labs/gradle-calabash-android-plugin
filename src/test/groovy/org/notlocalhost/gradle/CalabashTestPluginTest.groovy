@@ -104,7 +104,7 @@ class CalabashTestPluginTest {
 
         project.extensions.create("calabashTest", CalabashTestPluginExtension)
 
-        project.calabashTest.calabashPath = "/some/path/"
+        System.setProperty("calabashPath", "/some/path/")
 
         Iterable commandArguments = plugin.constructCommandLineArguments(project, apkFile, outFile);
 

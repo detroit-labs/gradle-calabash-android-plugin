@@ -1,8 +1,7 @@
-package org.notlocalhost.gradle;
+package org.notlocalhost.gradle
 
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
-
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaBasePlugin
@@ -64,7 +63,7 @@ class CalabashTestPlugin implements Plugin<Project> {
             def apkFile = "$apkFilePath/$apkName"
             testRunTask.workingDir "${project.rootDir}/"
             def os = System.getProperty("os.name").toLowerCase()
-            
+
             def outFileDir = project.file("build/reports/calabash/${variationName}")
 
             Iterable commandArguments = constructCommandLineArguments(project, apkFile, outFileDir)
@@ -84,7 +83,7 @@ class CalabashTestPlugin implements Plugin<Project> {
                     }
                 }
             }
-            
+
             testRunTask.doLast {
                 println "\r\nCalabash HTML Report: file://$outFile.canonicalPath"
             }
@@ -101,8 +100,8 @@ class CalabashTestPlugin implements Plugin<Project> {
             commandArguments.add("cmd")
             commandArguments.add("/c")
         }
-
-        commandArguments.add("calabash-android")
+        String calabashPath = project.calabashTest.calabashPath == null ? "" : project.calabashTest.calabashPath;
+        commandArguments.add(calabashPath + "calabash-android");
         commandArguments.add("run")
         commandArguments.add(apkFile)
 

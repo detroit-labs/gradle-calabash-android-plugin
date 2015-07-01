@@ -95,4 +95,21 @@ class CalabashTestPluginTest {
     }
 
 
+    @Test public void pluginSetsCalabashPathIfAvailable() {
+        CalabashTestPlugin plugin = new CalabashTestPlugin();
+
+        String apkFile = "TestApkFile";
+        File outFile = new File("/File/Path");
+        Project project = ProjectBuilder.builder().build();
+
+        project.extensions.create("calabashTest", CalabashTestPluginExtension)
+
+        project.calabashTest.calabashPath = "/some/path/"
+
+        Iterable commandArguments = plugin.constructCommandLineArguments(project, apkFile, outFile);
+
+        Assertions.assertThat(commandArguments.contains("/some/path/calabash-android")).isTrue();
+    }
+
+
 }

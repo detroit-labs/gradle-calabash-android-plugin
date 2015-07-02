@@ -112,4 +112,19 @@ class CalabashTestPluginTest {
     }
 
 
+    @Test public void outFileSetWhenCommandLineArgsConstructed() {
+        CalabashTestPlugin plugin = new CalabashTestPlugin();
+
+        String apkFile = "TestApkFile";
+        File outFileDir = new File("/File/Path");
+        Project project = ProjectBuilder.builder().build();
+
+        project.extensions.create("calabashTest", CalabashTestPluginExtension)
+
+        plugin.constructCommandLineArguments(project, apkFile, outFileDir);
+
+        Assertions.assertThat(plugin.outFile).isEqualTo(new File(outFileDir, "report.html"));
+    }
+
+
 }

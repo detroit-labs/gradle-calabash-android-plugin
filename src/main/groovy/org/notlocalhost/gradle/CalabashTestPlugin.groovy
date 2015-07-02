@@ -9,6 +9,7 @@ import org.gradle.api.tasks.Exec
 
 class CalabashTestPlugin implements Plugin<Project> {
     private static final String TEST_TASK_NAME = 'calabash'
+    def outFile;
 
     void apply(Project project) {
         project.extensions.create("calabashTest", CalabashTestPluginExtension)
@@ -123,7 +124,7 @@ class CalabashTestPlugin implements Plugin<Project> {
         }
 
         for (String outFileFormat : outFileFormats) {
-            def outFile = new File(outFileDir, "report."+outFileFormat)
+            outFile = new File(outFileDir, "report."+outFileFormat)
             commandArguments.add("--format")
             commandArguments.add(outFileFormat)
             commandArguments.add("--out")

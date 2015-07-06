@@ -127,4 +127,24 @@ class CalabashTestPluginTest {
     }
 
 
+    @Test public void featuresPathPrioritizesSystemProperty() {
+        CalabashTestPlugin plugin = new CalabashTestPlugin();
+
+        String apkFile = "TestApkFile";
+        File outFileDir = new File("/File/Path");
+        Project project = ProjectBuilder.builder().build();
+
+        project.extensions.create("calabashTest", CalabashTestPluginExtension)
+
+        project.calabashTest.featuresPath = "/plugin/extension"
+        System.setProperty("featuresPath", "/system/property")
+
+        Iterable commandArguments = plugin.constructCommandLineArguments(project, apkFile, outFileDir);
+
+        Assertions.assertThat(commandArguments.contains("/system/property")).isTrue()
+
+        System.clearProperty("featuresPath")
+    }
+
+
 }

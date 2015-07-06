@@ -108,7 +108,9 @@ class CalabashTestPlugin implements Plugin<Project> {
         commandArguments.add("run")
         commandArguments.add(apkFile)
 
-        String featuresPath = project.calabashTest.featuresPath
+
+        String featuresPath = System.properties['featuresPath'] == null ? project.calabashTest.featuresPath : System.properties['featuresPath']
+
         if (featuresPath != null) {
             commandArguments.add(featuresPath)
         }
